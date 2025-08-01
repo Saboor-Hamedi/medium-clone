@@ -10,9 +10,6 @@ class CategoryTab extends Component
 {
     
      public function __construct() {}
-
-
-   
     public function render(): View|Closure|string
     {
         $categories = \App\Models\Category::all(); // Fetch categories from the database

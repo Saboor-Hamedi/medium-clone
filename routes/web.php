@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PostController;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
@@ -10,10 +11,10 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::view('dashboard', 'dashboard')
+
+Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
-
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
 Route::get('/posts', [PostController::class, 'index'])->name('posts.index');

@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
-class PostController extends Controller
+class DashboardController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        return view('posts.index');
+        $posts = Post::latest()->paginate(6)->appends(['sort' => $request->query('sort', 'slug')]);
+        return view('dashboard', [
+                'posts' => $posts,
+            ]);
     }
 
     /**
@@ -35,7 +37,7 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Post $post)
+    public function show(string $id)
     {
         //
     }
@@ -43,7 +45,7 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Post $post)
+    public function edit(string $id)
     {
         //
     }
@@ -51,7 +53,7 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -59,7 +61,7 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Post $post)
+    public function destroy(string $id)
     {
         //
     }
