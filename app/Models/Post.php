@@ -9,4 +9,20 @@ class Post extends Model
 {
     /** @use HasFactory<\Database\Factories\PostFactory> */
     use HasFactory;
+    protected $fillable = [
+    'title',
+    'content',
+    'thumbnail',
+    'slug',
+    'category_id',
+    'user_id',
+    'is_published',
+];
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    public function getTime(){
+        return $this->created_at->diffForHumans() ;
+    }
 }

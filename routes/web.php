@@ -13,15 +13,16 @@ Route::get('/', function () {
 
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->middleware(['auth', 'verified'])
+    ->middleware(middleware: ['auth', 'verified'])
     ->name('dashboard');
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
-Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
-
     Route::get('settings/profile', Profile::class)->name('settings.profile');
     Route::get('settings/password', Password::class)->name('settings.password');
     Route::get('settings/appearance', Appearance::class)->name('settings.appearance');
+    // Posts 
+    Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+    Route::post('/posts/create', [PostController::class, 'create'])->name('posts.create');
 });
 
 require __DIR__.'/auth.php';

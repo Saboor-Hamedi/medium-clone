@@ -12,7 +12,7 @@ class DashboardController extends Controller
      */
     public function index(Request $request)
     {
-        $posts = Post::latest()->paginate(6)->appends(['sort' => $request->query('sort', 'slug')]);
+        $posts = Post::with(['user'])->latest()->paginate(6)->appends(['sort' => $request->query('sort', 'slug')]);
         return view('dashboard', [
                 'posts' => $posts,
             ]);

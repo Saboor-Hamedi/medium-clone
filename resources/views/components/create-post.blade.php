@@ -1,13 +1,5 @@
- <div class="flex w-full gap-2 rounded-4xl justify-start ">
-     <div class="w-full max-w-5xl">
-         <ul
-             class="flex  justify-start text-sm font-medium text-center text-gray-500 rounded-lg shadow-sm dark:divide-gray-700 dark:text-gray-400">
-             {{-- Categories --}}
-             <li class="flex-shrink-0 focus-within:z-10">
-                 <a href="#"
-                     class="inline-block px-4 py-2 text-gray-900 bg-gray-100 border-r border-gray-200 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 dark:bg-gray-700 dark:text-white rounded-lg transition-colors duration-200 focus:ring-2 focus:ring-blue-300 focus:outline-none mx-1 my-1"
-                     aria-current="page">{{ __('Create Post') }}</a>
-             </li>
-         </ul>
-     </div>
- </div>
+<div class="w-full max-w-5xl  p-1 flex justify-end">
+    <x-ui.button href="{{ route('dashboard') }}" style="dark" icon="fa-solid fa-arrow-left" aria-current="page">
+        {{ __('Back') }}
+    </x-ui.button>
+</div>
