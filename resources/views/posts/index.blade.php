@@ -4,7 +4,7 @@
     {{-- Create Post button --}}
     <x-create-post />
     {{-- Posts --}}
-    <div class="grid grid-cols-1 mt-2 rounded-sm  gap-2 ">
+    <div class="grid grid-cols-1 mt-1 rounded-sm  gap-2 ">
         <form action="{{ route('posts.create') }}" method="POST" class="lg:w-full mx-auto" enctype="multipart/form-data">
         @if (session('success'))
             <div class="mb-4 text-green-700 bg-green-100 p-2 rounded">

@@ -11,6 +11,10 @@
     <!-- Content -->
     <div class="flex-1 flex flex-col justify-between p-5">
         <div>
+            <small class="text-xs text-gray-500 dark:text-gray-400 mb-2 cursor-pointer">
+                <!-- ost-?is_published ? ?public? : ?private?-->
+            {{ $post->is_published ? 'public post' : 'private post' }}
+            </small>
             <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-1 line-clamp-2">
                 {{ $post->title ?? 'Noteworthy technology acquisitions 2021' }}
             </h3>

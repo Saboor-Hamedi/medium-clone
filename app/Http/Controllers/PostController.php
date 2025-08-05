@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePostRequest;
 use App\Models\Category;
 use App\Models\Post;
+use App\Services\PostValidationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -12,6 +14,12 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
+    protected $validator;
+
+    //  public function __construct(PostValidationService $validator)
+    //  {
+    //      $this->validator = $validator;
+    //  }
     public function index(Request $request)
     {
         $categories = Category::get();
@@ -21,15 +29,10 @@ class PostController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request)
+    public function create(StorePostRequest $request)
     {
-       $validated =  $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
-            'thumbnail' => 'nullable|image|max:2048',
-            'category_id' => 'nullable|exists:categories,id',
-            'is_published' => 'boolean',
-        ]);
+   
+        $validated = $request->validated();
         if($request->hasFile('thumbnail')) {
             $thumbnailPath = $request->file('thumbnail')->store('posts', 'public');
         } else {
