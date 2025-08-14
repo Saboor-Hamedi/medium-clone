@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->longText('content');
             $table->string('thumbnail')->nullable();
-            $table->foreignId('category_id')
+            $table->foreignId(column: 'category_id')->nullable()
                 ->constrained('categories')
                 ->onDelete('cascade');
             $table->foreignId('user_id')

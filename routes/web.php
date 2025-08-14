@@ -2,15 +2,14 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\WelcomeController;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
 
+Route::get('/', [WelcomeController::class, 'index'])->name('home');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(middleware: ['auth', 'verified'])
@@ -20,9 +19,21 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/profile', Profile::class)->name('settings.profile');
     Route::get('settings/password', Password::class)->name('settings.password');
     Route::get('settings/appearance', Appearance::class)->name('settings.appearance');
-    // Posts 
-    Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
-    Route::post('/posts/create', [PostController::class, 'create'])->name('posts.create');
+    // Post middleware 
+    Route::middleware(['post'])->group(function(){
+        // Posts
+    Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
+    // Do not allow some routes to be accessed via GET request.
+    Route::get('/posts/store', function () {
+    return redirect()->route('posts.create');
+    });
+    Route::post('/posts/store', [PostController::class, 'store'])->name('posts.store');
+    // Show post
+    Route::get('/posts/{post:slug}/edit', [PostController::class, 'edit'])->name('posts.edit');
+    Route::put('/posts/{post:slug}', [PostController::class, 'update'])->name('posts.update');
+    Route::delete('/posts/{post:slug}', [PostController::class, 'destroy'])->name('posts.destroy');
+    });
 });
+
 
 require __DIR__.'/auth.php';

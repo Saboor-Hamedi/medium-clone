@@ -25,4 +25,9 @@ class Post extends Model
     public function getTime(){
         return $this->created_at->diffForHumans() ;
     }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 }

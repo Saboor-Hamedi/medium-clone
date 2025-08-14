@@ -5,36 +5,51 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePostRequest;
 use App\Models\Category;
 use App\Models\Post;
-use App\Services\PostValidationService;
+use App\Service\ImageService;
+use App\Service\SlugService;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    protected $validator;
 
-    //  public function __construct(PostValidationService $validator)
-    //  {
-    //      $this->validator = $validator;
-    //  }
+    use AuthorizesRequests;
+  
+    protected $validator;
+    protected $imageService;
+    protected $slugService;
+    public function __construct(ImageService $imageService, SlugService $slugService)
+    {
+        $this->imageService = $imageService;
+        $this->slugService = $slugService;
+    }
+    
     public function index(Request $request)
     {
         $categories = Category::get();
-        return view('posts.index',['categories' => $categories]);
+        return view('posts.create',['categories' => $categories]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(StorePostRequest $request)
+    public function create()
     {
    
-        $validated = $request->validated();
+       $categories = Category::all();
+        return view('posts.create', compact('categories'));
+
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StorePostRequest $request)
+    {
+          $validated = $request->validated();
         if($request->hasFile('thumbnail')) {
-            $thumbnailPath = $request->file('thumbnail')->store('posts', 'public');
+           $thumbnailPath = $this->imageService->upload($request->file('thumbnail'));
         } else {
             $thumbnailPath = null;
         }
@@ -44,50 +59,58 @@ class PostController extends Controller
         $validated['is_published'] = $request->has('is_published');
 
         // Generate slug from title
-        $validated['slug'] = Str::slug($validated['title']);
-        // unique slug
-        $originalSlug  = $validated['slug'];
-        $counter  = 1 ; 
-        while (Post::where('slug', $validated['slug'])->exists()) {
-            $validated['slug'] = $originalSlug . '-' . $counter;
-            $counter++;
-        }
+        $validated['slug'] = $this->slugService->slug($validated['title']);
+        
 
-        $post = Post::create($validated);
-        return redirect()->route('posts.index')->with('success', 'Post created successfully!');
-
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+        Post::create($validated);
+        return redirect()->route('posts.create')->with('success', 'Post created successfully!');
     }
 
     /**
      * Display the specified resource.
      */
     public function show(Post $post)
-    {
-        //
-    }
+{
+    return view('posts.show', ['post' => $post]);
+}
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Post $post)
+      public function edit(Post $post)
     {
-        //
+        $post->load('user');
+        $categories = Category::get();
+        return view('posts.edit', ['post' => $post, 'categories' => $categories]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $post)
+    public function update(StorePostRequest $request, Post $post)
     {
-        //
+
+        $this->authorize('update', $post);
+        $validated = $request->validated();
+        // Check if there is a new thumbnail 
+        if($request->hasFile('thumbnail')){
+            // Delete the old thumbnail if it exists
+            $this->imageService->delete($post->thumbnail);
+            // update new thumbnail 
+            $validated['thumbnail'] = $this->imageService->upload($request->file('thumbnail'));
+        }else{
+            // Keep the old one if no new image
+        $validated['thumbnail'] = $post->thumbnail;
+        }
+        $validated['is_published'] = $request->has('is_published');
+         // Update slug only if title has changed
+         $validated['slug'] = $validated['title'] !== $post->title
+            ? $this->slugService->slug($validated['title'])
+            : $post->slug;
+   
+
+     $post->update($validated);
+     return redirect()->route('dashboard')->with('success', 'Post updated successfully!');
     }
 
     /**
@@ -95,6 +118,12 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        // Delete the thumbnail if it exists
+        $this->authorize('delete', $post);
+        if ($post->thumbnail) {
+            $this->imageService->delete($post->thumbnail);
+        }
+        $post->delete();
+        return redirect()->route('dashboard')->with('success', 'Post deleted successfully!');
     }
 }

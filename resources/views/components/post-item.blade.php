@@ -2,18 +2,18 @@
     class="max-w-5xl w-full mx-auto bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow flex flex-col sm:flex-row-reverse overflow-hidden min-h-60">
     <!-- Image on the right (desktop), on top (mobile) -->
     <div class="sm:w-56 w-full flex-shrink-0">
-        <div class="h-40 sm:h-full w-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+        <div class="h-40 sm:h-60 w-full bg-gray-100 dark:bg-gray-700 overflow-hidden">
             <img src="{{ $post->thumbnail ? asset('storage/' . $post->thumbnail) : asset('storage/posts/image1.png') }}"
                 alt="{{ $post->title ?? 'Post image' }}" onerror="this.src='{{ asset('storage/posts/image1.png') }}'"
-                class="h-full w-full object-cover object-center" />
+                class="w-full h-full object-cover object-center" />
         </div>
+
     </div>
     <!-- Content -->
     <div class="flex-1 flex flex-col justify-between p-5">
         <div>
             <small class="text-xs text-gray-500 dark:text-gray-400 mb-2 cursor-pointer">
-                <!-- ost-?is_published ? ?public? : ?private?-->
-            {{ $post->is_published ? 'public post' : 'private post' }}
+                {{ $post->is_published ? 'public post' : 'private post' }}
             </small>
             <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-1 line-clamp-2">
                 {{ $post->title ?? 'Noteworthy technology acquisitions 2021' }}
@@ -25,17 +25,24 @@
         <div>
             <p class="text-xs text-gray-500 dark:text-gray-400 mb-2">
                 Posted by: {{ $post->user->name ?? 'Unknown Author' }}
-                {{ $post->getTime()}}
+                {{ $post->getTime() }}
             </p>
             <div class="flex gap-2">
-                <a href="#"
-                    class="inline-flex items-center px-3 py-1.5 text-sm font-medium text-white bg-blue-600 rounded hover:bg-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-700 transition">Edit</a>
-                <form action="#" method="POST">
+                @can('update', $post)
+                     <x-ui.button href="{{ route('posts.edit', ['post' => $post->slug ?? '']) }}" style="success"
+                    icon="fa-solid fa-pen-to-square">
+                    Edit
+                </x-ui.button>
+                @endcan
+               
+
+                @can('delete', $post)
+                     <form action="{{ route('posts.destroy', ['post' => $post->slug]) }}" method="POST">
                     @csrf
                     @method('DELETE')
-                    <button type="submit"
-                        class="inline-flex items-center px-3 py-1.5 text-sm font-medium text-white bg-red-600 rounded hover:bg-red-700 focus:ring-2 focus:outline-none focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-700 transition">Delete</button>
+                    <x-ui.button type="submit" style="danger" icon="fa-solid fa-trash">Delete</x-ui.button>
                 </form>
+                @endcan
             </div>
         </div>
     </div>
