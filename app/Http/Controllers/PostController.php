@@ -63,16 +63,17 @@ class PostController extends Controller
         
 
         Post::create($validated);
-        return redirect()->route('posts.create')->with('success', 'Post created successfully!');
+        return redirect()->route('dashboard')->with('success', 'Post created successfully!');
     }
 
     /**
      * Display the specified resource.
      */
     public function show(Post $post)
-{
-    return view('posts.show', ['post' => $post]);
-}
+    {
+        $post->load('user'); 
+        return view('posts.show', ['post' => $post]);
+    }
 
     /**
      * Show the form for editing the specified resource.

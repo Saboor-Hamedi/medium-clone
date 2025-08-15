@@ -21,27 +21,32 @@
             <p class="text-gray-700 dark:text-gray-300 text-base mb-3 line-clamp-3">
                 {{ Str::words($post->content ?? 'Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.', 35) }}
             </p>
+            <p class="text-gray-700 dark:text-gray-300 text-base mb-3 line-clamp-3">
+                <a href="{{ route('posts.show', ['post' => $post->slug ?? '']) }}"
+                    class="text-gray-800 font-bold hover:underline">
+                    Continue reading...
+                </a>
+            </p>
         </div>
         <div>
             <p class="text-xs text-gray-500 dark:text-gray-400 mb-2">
-                Posted by: {{ $post->user->name ?? 'Unknown Author' }}
-                {{ $post->getTime() }}
+                {{ $post->getTime() }} by {{ Str::ucfirst($post->user->name ?? 'Unknown Author') }}
+
             </p>
             <div class="flex gap-2">
                 @can('update', $post)
-                     <x-ui.button href="{{ route('posts.edit', ['post' => $post->slug ?? '']) }}" style="success"
-                    icon="fa-solid fa-pen-to-square">
-                    Edit
-                </x-ui.button>
+                    <x-ui.button href="{{ route('posts.edit', ['post' => $post->slug ?? '']) }}" style="success"
+                        icon="fa-solid fa-pen-to-square">
+                        Edit
+                    </x-ui.button>
                 @endcan
-               
 
                 @can('delete', $post)
-                     <form action="{{ route('posts.destroy', ['post' => $post->slug]) }}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <x-ui.button type="submit" style="danger" icon="fa-solid fa-trash">Delete</x-ui.button>
-                </form>
+                    <form action="{{ route('posts.destroy', ['post' => $post->slug]) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <x-ui.button type="submit" style="danger" icon="fa-solid fa-trash">Delete</x-ui.button>
+                    </form>
                 @endcan
             </div>
         </div>

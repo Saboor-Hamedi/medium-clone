@@ -13,17 +13,6 @@
     </div>
     {{-- Posts --}}
     <div class="grid grid-cols-1  rounded-sm  gap-2  mt-3">
-    <x-dashboard-hero />
-        @forelse  ($posts as $post)
-            <x-post-item :post="$post" />
-        @empty
-            <div class="text-center text-gray-500 dark:text-gray-400">
-                {{ __('No posts available') }}
-            </div>
-        @endforelse
-    </div>
-    {{-- Pagination --}}
-    <div class="mt-8">
-        {{ $posts->links() }}
+    <x-single-post :post="$post" />
     </div>
 </x-layouts.app>

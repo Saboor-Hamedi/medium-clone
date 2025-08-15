@@ -23,7 +23,8 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
     public function getTime(){
-        return $this->created_at->diffForHumans() ;
+        // return $this->created_at->diffForHumans() ;
+        return $this->created_at->format('F j, Y');
     }
 
     public function getRouteKeyName()

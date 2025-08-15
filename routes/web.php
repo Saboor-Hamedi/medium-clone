@@ -20,7 +20,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/password', Password::class)->name('settings.password');
     Route::get('settings/appearance', Appearance::class)->name('settings.appearance');
     // Post middleware 
-    Route::middleware(['post'])->group(function(){
+    Route::middleware(['post', 'auth', 'verified'])->group(function(){
         // Posts
     Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
     // Do not allow some routes to be accessed via GET request.
@@ -30,6 +30,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/posts/store', [PostController::class, 'store'])->name('posts.store');
     // Show post
     Route::get('/posts/{post:slug}/edit', [PostController::class, 'edit'])->name('posts.edit');
+    Route::get('/posts/{post:slug}/show', [PostController::class, 'show'])->name('posts.show');
     Route::put('/posts/{post:slug}', [PostController::class, 'update'])->name('posts.update');
     Route::delete('/posts/{post:slug}', [PostController::class, 'destroy'])->name('posts.destroy');
     });
