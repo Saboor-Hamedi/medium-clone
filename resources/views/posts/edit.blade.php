@@ -21,12 +21,9 @@
             </div>
             {{-- content --}}
             <div class="mt-2">
-                <textarea name="content"
-                    class="mt-1 block w-full rounded-md border {{ $errors->has('content') ? 'border-red-500' : '' }} bg-white px-3 py-2 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition resize-y min-h-[120px]"
-                    placeholder="Write your post here...">{{ old('content', $post->content) }}</textarea>
-                @error('content')
-                    <small class="text-red-500 text-xs mt-1">{{ $message }}</small>
-                @enderror
+                <x-ui.textarea name="content" class="{{ $errors->has('content') ? 'border-red-500 focus:border-red-500 focus:ring-red-200' : '' }}"   placeholder="Write your post here...">
+                    {{ $post->content }}
+                </x-ui.textarea>
             </div>
 
             <!-- Category -->

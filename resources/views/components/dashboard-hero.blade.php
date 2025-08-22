@@ -61,51 +61,23 @@
                  </div>
                  <div class="hidden md:block md:w-48 flex-none bg-gray-600">
                      <div class="h-full w-full flex items-center justify-center text-gray-300">Thumbnail</div>
-                 </div>
+                </div>
              </div>
          </div>
      </div>
-
      <!-- Main Content -->
      <div class="flex flex-wrap -mx-4">
          <div class="w-full md:w-2/3 px-4">
-             <h3 class="pb-4 mb-4 italic font-bold border-b border-gray-200">From the Firehose</h3>
-
-             <!-- Blog Post 1 -->
-             <article class="mb-12">
-                 <h2 class="text-3xl font-bold mb-2 text-gray-800">Sample blog post</h2>
-                 <p class="text-sm text-gray-500 mb-4">January 1, 2021 by <a href="#"
-                         class="text-blue-600 hover:underline">Mark</a></p>
-                 <p class="mb-4">This blog post shows a few different types of content that's supported and
-                     styled with Bootstrap. Basic typography, lists, tables, images, code, and more are all
-                     supported as expected.</p>
-                 <hr class="my-4 border-gray-200">
-                 <p class="mb-4">This is some additional paragraph placeholder content. It has been written to
-                     fill the available space and show how a longer snippet of text affects the surrounding
-                     content.</p>
-
-                 <h2 class="text-2xl font-bold mt-6 mb-3">Blockquotes</h2>
-                 <blockquote class="border-l-4 border-gray-300 pl-4 italic mb-4">
-                     <p>Quoted text goes here.</p>
-                 </blockquote>
-
-                 <!-- More content... -->
-             </article>
-
+             <h3 class="pb-4 mb-4 italic font-bold border-b border-gray-200">Explore more</h3>
              <!-- Blog Post 2 -->
              <article class="mb-12">
-                 <h2 class="text-3xl font-bold mb-2 text-gray-800">Another blog post</h2>
-                 <p class="text-sm text-gray-500 mb-4">December 23, 2020 by <a href="#"
-                         class="text-blue-600 hover:underline">Jacob</a></p>
-                 <p class="mb-4">This is some additional paragraph placeholder content. It has been written to
-                     fill the available space and show how a longer snippet of text affects the surrounding
-                     content.</p>
-                 <!-- More content... -->
+                 <h2 class="text-3xl font-bold mb-2 text-gray-800">All Posts</h2>
+                 <p class="text-gray-600 mb-4">
+                    Multiple lines of text that form the lede, informing new readers quickly
+                     and efficiently about what's most interesting in this post's contents.
+                 </p>
              </article>
-
          </div>
      </div>
-
-
      {{-- end --}}
  </div>

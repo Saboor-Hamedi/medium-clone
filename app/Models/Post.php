@@ -22,13 +22,23 @@ class Post extends Model
     {
         return $this->belongsTo(User::class);
     }
+    
     public function getTime(){
         // return $this->created_at->diffForHumans() ;
         return $this->created_at->format('F j, Y');
+    }
+    public function category(){
+        return $this->belongsTo(Category::class);
+    }
+    // This method calls the category name
+    public function getCategoryName()
+    {
+        return $this->category ? $this->category->name : 'Uncategorized';
     }
 
     public function getRouteKeyName()
     {
         return 'slug';
     }
+
 }

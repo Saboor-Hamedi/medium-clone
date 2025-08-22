@@ -13,12 +13,16 @@
     <div class="flex-1 flex flex-col justify-between p-5">
         <div>
             <small class="text-xs text-gray-500 dark:text-gray-400 mb-2 cursor-pointer">
-                {{ $post->is_published ? 'public post' : 'private post' }}
+                {{ $post->is_published ? 'public' : 'private' }}
             </small>
             <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-1 line-clamp-2">
                 {{ $post->title ?? 'Noteworthy technology acquisitions 2021' }}
             </h3>
+             <p class="text-[10px] text-gray-500 dark:text-gray-400">
+                Category: {{ $post->getCategoryName() }}
+            </p>
             <p class="text-gray-700 dark:text-gray-300 text-base mb-3 line-clamp-3">
+                
                 {{ Str::words($post->content ?? 'Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.', 35) }}
             </p>
             <p class="text-gray-700 dark:text-gray-300 text-base mb-3 line-clamp-3">
