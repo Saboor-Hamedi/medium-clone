@@ -12,9 +12,17 @@
             </a>
 
             <flux:navlist variant="outline">
-                <flux:navlist.group :heading="__('Platform')" class="grid">
+                <flux:navlist.group :heading="__('Feeds')" class="grid">
                     <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
                 </flux:navlist.group>
+                {{-- Profile --}}
+
+                <flux:navlist.group :heading="__('User')" class="grid">
+                    <flux:navlist.item icon="user" :href="route('profile.index')" :current="request()->routeIs('profile.index')" wire:navigate>{{ __('Profile') }}</flux:navlist.item>
+                </flux:navlist.group>
+
+
+                {{-- Posts --}}
                 <flux:navlist.group :heading="__('Posts')" class="grid">
                     <flux:navlist.item icon="pencil-square" :href="route('posts.create')" :current="request()->routeIs('posts.create')" wire:navigate>{{ __('New Post') }}</flux:navlist.item>
                 </flux:navlist.group>

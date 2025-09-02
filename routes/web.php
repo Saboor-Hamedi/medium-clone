@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\profile\ProfileController;
 use App\Http\Controllers\WelcomeController;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
@@ -33,6 +34,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/posts/{post:slug}/show', [PostController::class, 'show'])->name('posts.show');
     Route::put('/posts/{post:slug}', [PostController::class, 'update'])->name('posts.update');
     Route::delete('/posts/{post:slug}', [PostController::class, 'destroy'])->name('posts.destroy');
+
+    // Profile 
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     });
 });
 

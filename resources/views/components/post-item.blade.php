@@ -1,5 +1,7 @@
 <div
-    class="max-w-5xl w-full mx-auto bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow flex flex-col sm:flex-row-reverse overflow-hidden min-h-60">
+    class="max-w-5xl w-full mx-auto  
+     border-b-1 border-gray-100 
+       flex flex-col sm:flex-row-reverse overflow-hidden min-h-60">
     <!-- Image on the right (desktop), on top (mobile) -->
     <div class="sm:w-56 w-full flex-shrink-0">
         <div class="h-40 sm:h-60 w-full bg-gray-100 dark:bg-gray-700 overflow-hidden">
@@ -35,7 +37,6 @@
         <div>
             <p class="text-xs text-gray-500 dark:text-gray-400 mb-2">
                 {{ $post->getTime() }} by {{ Str::ucfirst($post->user->name ?? 'Unknown Author') }}
-
             </p>
             <div class="flex gap-2">
                 @can('update', $post)
@@ -43,6 +44,7 @@
                         icon="fa-solid fa-pen-to-square">
                         Edit
                     </x-ui.button>
+                    
                 @endcan
 
                 @can('delete', $post)
