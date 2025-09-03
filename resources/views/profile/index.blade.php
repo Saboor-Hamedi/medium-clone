@@ -8,9 +8,8 @@
                 <div class="relative h-32 bg-gradient-to-r from-blue-600 to-indigo-700">
                     <div class="absolute -bottom-12 left-6">
                         <div class="h-24 w-24 rounded-full border-4 border-white overflow-hidden bg-white shadow-md">
-                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
-                                id="profileImage"
-                                alt="Profile" class="h-full w-full object-cover">
+                            <img src="{{ $profile->image ? asset('storage/' . $profile->image) : asset('storage/posts/image1.png') }}"
+                                id="profileImage" alt="Profile" class="h-full w-full object-cover">
                         </div>
                     </div>
                 </div>
@@ -19,21 +18,40 @@
                 <div class="pt-14 px-6 pb-6">
                     <div class="flex flex-col sm:flex-row justify-between items-start mb-4">
                         <div class="mb-4 sm:mb-0">
-                            <h1 class="text-2xl font-bold text-gray-800">John Anderson</h1>
+                            <h1 class="text-2xl font-bold text-gray-800">{{ auth()->user()->name }}</h1>
                             <p class="text-gray-600 mt-1">UX Designer & Frontend Developer</p>
                             <div class="flex items-center mt-2 text-gray-500">
                                 <i class="fas fa-map-marker-alt text-sm mr-2"></i>
                                 <span class="text-sm">San Francisco, California</span>
                             </div>
                         </div>
-                        
-                        <x-ui.button type="submit" id="editButton"  
-                            style="primary" icon="fa-solid fa-pen-to-square mr-1">
-                            Edit Profile
-                        </x-ui.button>
-                        <input type="file" id="imageUpload" accept="image/*" class="hidden">
-                    </div>
 
+                        <div class="text-white px-3 py-1 rounded-lg text-sm flex items-center gap-2">
+                            <div class="edit-button-div">
+                                <x-ui.button type="button" id="editButton" style="primary"
+                                    icon="fa-solid fa-pen-to-square mr-1">
+                                    Edit Profile
+                                </x-ui.button>
+                            </div>
+                            <form action="{{ route('profile.image') }}"
+                                method="POST" enctype="multipart/form-data">
+                                @csrf
+                                <input type="file" id="imageUpload" name="image" accept="image/*" class="hidden">
+                                <div class="save-button-div" style="display: none;">
+                                    <x-ui.button type="submit" id="saveButton" style="success"
+                                        icon="fa-solid fa-floppy-disk mr-1">
+                                        Save
+                                    </x-ui.button>
+                                </div>
+                            </form>
+                            <div class="cancel-button-div" style="display: none;">
+                                <x-ui.button type="reset" id="cancelButton" style="danger"
+                                    icon="fa-solid fa-ban mr-1">
+                                    Cancel
+                                </x-ui.button>
+                            </div>
+                        </div>
+                    </div>
                     <div class="border-t border-gray-200 pt-4 mt-4">
                         <h2 class="text-lg font-semibold text-gray-800 mb-3">About Me</h2>
                         <p class="text-gray-600 text-sm leading-relaxed">
@@ -59,7 +77,7 @@
                             <div class="p-5">
                                 <div class="flex items-center mb-4">
                                     <div class="h-10 w-10 rounded-full overflow-hidden mr-3">
-                                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80"
+                                        <img src="{{ $profile->image ? asset('storage/' . $profile->image) : asset('storage/posts/image1.png') }}"
                                             alt="Author" class="h-full w-full object-cover">
                                     </div>
                                     <div>
@@ -86,7 +104,7 @@
                             </div>
                         </div>
                     @empty
-                    <h1>Post not found.</h1>
+                        <h1>Post not found.</h1>
                     @endforelse
                 </div>
             </div>

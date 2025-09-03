@@ -37,6 +37,10 @@ Route::middleware(['auth'])->group(function () {
 
     // Profile 
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+
+
+    // Upload profile image
+    Route::post('/profile/image', [ProfileController::class, 'image'])->name('profile.image');
     });
 });
 

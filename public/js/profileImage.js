@@ -1,35 +1,61 @@
-document.addEventListener("click", (event) => {
-    // We use .closest() to check if the clicked element is our button,
-    // or if the click came from an element *inside* our button (like the SVG icon).
-    const targetButton = event.target.closest("#editButton");
+document.addEventListener("DOMContentLoaded", () => {
+    const profileImage = document.getElementById("profileImage");
+    const originalImageSrc = profileImage ? profileImage.src : "";
 
-    // If the click came from our "Edit Profile" button...
-    if (targetButton) {
-        const imageUpload = document.getElementById("imageUpload");
-        // Only trigger the click if the file input exists on this page.
-        if (imageUpload) {
-            imageUpload.click();
+    document.addEventListener("click", (event) => {
+        const targetButton = event.target.closest("#editButton");
+        if (targetButton) {
+            const imageUpload = document.getElementById("imageUpload");
+            if (imageUpload) {
+                imageUpload.click();
+            }
         }
-    }
-});
+    });
 
-// The 'change' event for the file input only needs to be attached once,
-// as the input element itself isn't being replaced dynamically in the same way.
-// We still check if it exists before trying to add the listener.
-document.addEventListener("change", (event) => {
-    const imageUpload = document.getElementById("imageUpload");
-    if (imageUpload) {
+    document.addEventListener("change", (event) => {
+        const imageUpload = document.getElementById("imageUpload");
+        if (imageUpload && event.target === imageUpload) {
             const file = event.target.files[0];
-            const profileImage = document.getElementById("profileImage");
-
-            // Proceed only if a file was selected and the image element exists.
             if (file && profileImage) {
                 const reader = new FileReader();
                 reader.onload = (e) => {
                     profileImage.src = e.target.result;
+                    document.querySelector(".edit-button-div").style.display =
+                        "none";
+                    document.querySelector(".save-button-div").style.display =
+                        "block";
+                    document.querySelector(".cancel-button-div").style.display =
+                        "block";
                 };
                 reader.readAsDataURL(file);
             }
-       
+        }
+    });
+
+    const cancelButton = document.getElementById("cancelButton");
+    if (cancelButton) {
+        cancelButton.addEventListener("click", () => {
+            document.querySelector(".edit-button-div").style.display = "block";
+            document.querySelector(".save-button-div").style.display = "none";
+            document.querySelector(".cancel-button-div").style.display = "none";
+            document.getElementById("imageUpload").value = "";
+            if (profileImage) {
+                profileImage.src = originalImageSrc;
+            }
+        });
+    }
+
+    const form = document.querySelector("form");
+    if (form) {
+        form.addEventListener("submit", (event) => {
+            event.preventDefault(); // Remove for actual server submission
+            document.querySelector(".edit-button-div").style.display = "block";
+            document.querySelector(".save-button-div").style.display = "none";
+            document.querySelector(".cancel-button-div").style.display = "none";
+            document.getElementById("imageUpload").value = "";
+            if (profileImage) {
+                profileImage.src = originalImageSrc;
+            }
+        });
     }
 });
